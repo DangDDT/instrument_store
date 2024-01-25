@@ -1,7 +1,15 @@
+import 'package:instrument_store/domain/services/services.dart';
+import 'package:instrument_store/infrastructure/clients/dio.dart';
+
 class GlobalBinding {
   const GlobalBinding._internal();
 
-  GlobalBinding get instance => const GlobalBinding._internal();
+  static GlobalBinding get instance => const GlobalBinding._internal();
 
-  static Future<void> init() async {}
+  Future<void> init() async {
+    DioClient.instance.init(
+      baseUrl: 'https://jsonplaceholder.typicode.com',
+    );
+    ServiceFactory.instance.init();
+  }
 }

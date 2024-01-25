@@ -1,13 +1,14 @@
-import 'package:instrument_store/core/initialization/global_binding.dart';
 import 'package:instrument_store/core/modules/module_manager.dart';
 
+import 'initialization/global_binding.dart';
+
 class AppCore {
-  const AppCore._();
+  const AppCore._internal();
 
-  static AppCore get instance => const AppCore._();
+  static AppCore get instance => const AppCore._internal();
 
-  static Future<void> init() async {
-    await GlobalBinding.init();
+  Future<void> init() async {
+    await GlobalBinding.instance.init();
     await ModuleManager.instance.init();
   }
 }

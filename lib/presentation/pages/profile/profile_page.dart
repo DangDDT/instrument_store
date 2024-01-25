@@ -9,8 +9,7 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage>
-    with AutomaticKeepAliveClientMixin {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     Get.put(ProfileController());
@@ -19,14 +18,10 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return GetBuilder<ProfileController>(
       builder: (controller) {
         return const SizedBox.shrink();
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
