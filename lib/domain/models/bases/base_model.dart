@@ -1,3 +1,4 @@
+import 'package:instrument_store/domain/entities/bases/base_entity.dart';
 import 'package:instrument_store/domain/entities/category_entity.dart';
 import 'package:instrument_store/domain/entities/instrument_entity.dart';
 
@@ -5,7 +6,7 @@ import '../category_model.dart';
 import '../instrument_model.dart';
 
 abstract class BaseModel {
-  BaseModel();
+  const BaseModel();
 
   factory BaseModel.fromEntity(Type type, BaseEntity entity) {
     switch (type) {

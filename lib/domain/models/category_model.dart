@@ -5,21 +5,21 @@ import 'bases/base_model.dart';
 class CategoryModel extends BaseModel {
   final int id;
   final String name;
-  CategoryModel({
+  const CategoryModel({
     required this.id,
     required this.name,
   });
 
   factory CategoryModel.fromEntity(CategoryEntity entity) {
-    return CategoryModel(id: 0, name: '');
+    return const CategoryModel(id: 0, name: '');
   }
 
   static List<CategoryModel> mockData() {
     return [
-      CategoryModel(id: 1, name: 'Guitar'),
-      CategoryModel(id: 2, name: 'Drum'),
-      CategoryModel(id: 4, name: 'Violin'),
-      CategoryModel(id: 5, name: 'Saxophone'),
+      const CategoryModel(id: 1, name: 'Guitar'),
+      const CategoryModel(id: 2, name: 'Drum'),
+      const CategoryModel(id: 4, name: 'Violin'),
+      const CategoryModel(id: 5, name: 'Saxophone'),
     ];
   }
 

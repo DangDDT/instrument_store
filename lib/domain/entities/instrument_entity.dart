@@ -1,4 +1,4 @@
-import 'package:instrument_store/domain/entities/category_entity.dart';
+import 'bases/base_entity.dart';
 
 class InstrumentEntity extends BaseEntity {
   InstrumentEntity();

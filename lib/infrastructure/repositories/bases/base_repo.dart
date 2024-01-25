@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:instrument_store/domain/entities/category_entity.dart';
+import 'package:instrument_store/domain/entities/bases/base_entity.dart';
 import 'package:instrument_store/domain/models/bases/base_model.dart';
 import 'package:instrument_store/domain/requests/bases/base_get_query.dart';
 import 'package:instrument_store/domain/requests/bases/base_post_body.dart';

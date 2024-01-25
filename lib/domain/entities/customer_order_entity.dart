@@ -1,4 +1,6 @@
-class CustomerOrderEntity {
+import 'package:instrument_store/domain/entities/bases/base_entity.dart';
+
+class CustomerOrderEntity extends BaseEntity {
   CustomerOrderEntity();
 
   factory CustomerOrderEntity.fromJson(Map<String, dynamic> json) {

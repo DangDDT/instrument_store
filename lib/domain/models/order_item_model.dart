@@ -1,6 +1,8 @@
 import 'package:instrument_store/domain/entities/order_item_entity.dart';
 
-class OrderItemModel {
+import 'bases/base_model.dart';
+
+class OrderItemModel extends BaseModel {
   const OrderItemModel();
 
   factory OrderItemModel.fromEntity(OrderItemEntity entity) {
