@@ -26,13 +26,13 @@ class CategoryModel extends BaseModel {
   String get image {
     switch (name.toLowerCase()) {
       case 'guitar':
-        return 'assets/images/guitar.png';
+        return 'assets/guitar_category.png';
       case 'drum':
-        return 'assets/images/drum.png';
+        return 'assets/drum_category.png';
       case 'violin':
-        return 'assets/images/violin.png';
+        return 'assets/violin_category.png';
       case 'saxophone':
-        return 'assets/images/saxophone.png';
+        return 'assets/saxophone_category.png';
       default:
         return '';
     }

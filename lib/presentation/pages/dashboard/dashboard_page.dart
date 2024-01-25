@@ -2,7 +2,12 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:instrument_store/domain/models/category_model.dart';
 import 'package:instrument_store/presentation/pages/dashboard/dashboard_controller.dart';
+import 'package:instrument_store/presentation/widgets/empty_widget.dart';
+import 'package:instrument_store/presentation/widgets/error_widget.dart';
+import 'package:instrument_store/presentation/widgets/loading_widget.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -43,7 +48,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     const _WelcomeSection(),
                     const SizedBox(height: 8),
                     const _SearchSection(),
-                    const _CategorySection(),
+                    const SizedBox(height: 24),
+                    const _CategorySectionBuilder(),
                   ],
                 ),
               ),
@@ -165,56 +171,131 @@ class _WelcomeSection extends GetView<DashboardController> {
   }
 }
 
+class _CategorySectionBuilder extends GetView<DashboardController> {
+  const _CategorySectionBuilder();
+
+  @override
+  Widget build(BuildContext context) {
+    return controller.obx(
+      (state) => const _CategorySection(),
+      onLoading: const LoadingWidget(),
+      onError: (error) => const ErrorHandleWidget(),
+      onEmpty: const EmptyHandleWidget(),
+    );
+  }
+}
+
 class _CategorySection extends GetView<DashboardController> {
   const _CategorySection();
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.state?.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+    return Center(
+      child: AnimationLimiter(
+        child: Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          alignment: WrapAlignment.spaceBetween,
+          runAlignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: (controller.state ?? []).map(
+            (category) {
+              return AnimationConfiguration.staggeredList(
+                position: controller.state?.indexOf(category) ?? 0,
+                child: FadeInAnimation(
+                  child: SlideAnimation(
+                    verticalOffset: 50,
+                    duration: const Duration(milliseconds: 810),
+                    child: LayoutBuilder(
+                      builder: (
+                        context,
+                        constraints,
+                      ) {
+                        return SizedBox(
+                          width: constraints.maxWidth / 2 - 16,
+                          child: _CategoryItem(category: category),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
+          ).toList(),
+        ),
       ),
-      itemBuilder: (context, index) {
-        final category = controller.state?.elementAt(index);
-        return GestureDetector(
-          onTap: () => {},
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: context.theme.colorScheme.surfaceVariant,
+    );
+  }
+}
+
+class _CategoryItem extends StatelessWidget {
+  const _CategoryItem({
+    required this.category,
+  });
+
+  final CategoryModel? category;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => {},
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 4,
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.bottomCenter,
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: -20,
+              child: Container(
+                width: context.width,
+                height: 140,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(32),
+                    bottomRight: Radius.circular(32),
+                    topRight: Radius.circular(100),
+                    topLeft: Radius.circular(100),
+                  ),
+                  color:
+                      context.theme.colorScheme.surfaceVariant.withOpacity(.6),
+                ),
+              ),
             ),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Expanded(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: 160,
+                    maxHeight: 180,
+                  ),
                   child: Hero(
                     tag: ValueKey(category?.id),
                     child: Image.asset(
                       category?.image ?? '',
-                      fit: BoxFit.cover,
+                      fit: BoxFit.scaleDown,
+                      width: 110,
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
                 Text(
                   category?.name ?? '',
                   style: context.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
+                    fontFamily: GoogleFonts.aBeeZee().fontFamily,
                   ),
                 ),
-                const SizedBox(height: 8),
               ],
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }
